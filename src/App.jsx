@@ -7,7 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { PropagateLoader } from 'react-spinners';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
-import ReactModal from 'react-modal';
+import ImageModal from 'react-modal';
 import ModalContent from './components/ModalContent/ModalContent';
 
 function App() {
@@ -68,7 +68,7 @@ function App() {
     }
   }, [isOpen]);
 
-  ReactModal.setAppElement('#root');
+  ImageModal.setAppElement('#root');
 
   return (
     <div className="wrapper">
@@ -80,7 +80,7 @@ function App() {
       {isLoading && <PropagateLoader color="#fcba03" />}
       {isError && <ErrorMessage />}
       {images.length !== 0 && <LoadMoreBtn handleClick={handleClick} />}
-      <ReactModal
+      <ImageModal
         isOpen={isOpen}
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
@@ -94,7 +94,7 @@ function App() {
         }}
       >
         <ModalContent content={currentImg} />
-      </ReactModal>
+      </ImageModal>
     </div>
   );
 }
