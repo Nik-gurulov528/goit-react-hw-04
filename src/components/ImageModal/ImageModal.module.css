@@ -6,15 +6,6 @@
   position: relative;
 }
 
-.cancelBtn {
-  position: absolute;
-  top: 0;
-  right: 0;
-  border: none;
-  padding: 8px;
-  background-color: transparent;
-}
-
 .modalText {
   font-weight: 600;
 }

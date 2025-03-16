@@ -2,7 +2,7 @@ import './App.css';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import SearchBar from './components/SearchBar/SearchBar';
 import fetchData from './js/fetchData';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { PropagateLoader } from 'react-spinners';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
@@ -16,7 +16,6 @@ function App() {
   const [isError, setIsError] = useState(false);
   const [topic, setTopic] = useState('');
   const [numPage, setNumPage] = useState();
-  const [isOpen, setIsOpen] = useState(false);
   const [currentImg, setCurrentImg] = useState({});
 
   async function handleSubmit(values, actions) {
@@ -59,16 +58,7 @@ function App() {
 
   function handleBigger(id) {
     setCurrentImg(() => images.find(item => item.id === id));
-    setIsOpen(true);
   }
-
-  useEffect(() => {
-    if (!isOpen) {
-      setCurrentImg({});
-    }
-  }, [isOpen]);
-
-  ReactModal.setAppElement('#root');
 
   return (
     <div className="wrapper">
@@ -80,20 +70,7 @@ function App() {
       {isLoading && <PropagateLoader color="#fcba03" />}
       {isError && <ErrorMessage />}
       {images.length !== 0 && <LoadMoreBtn handleClick={handleClick} />}
-
-      <ReactModal
-        isOpen={isOpen}
-        shouldCloseOnOverlayClick={true}
-        shouldCloseOnEsc={true}
-        onRequestClose={() => setIsOpen(false)}
-        style={{
-          overlay: {
-            backgroundColor: 'rgba(12, 12, 12, 0.8)',
-          },
-        }}
-      >
-        <ImageModal currentImg={currentImg} isOpen={isOpen} />
-      </ReactModal>
+      <ImageModal currentImg={currentImg} setCurrentImg={setCurrentImg} />
     </div>
   );
 }
