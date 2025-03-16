@@ -2,13 +2,13 @@ import './App.css';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import SearchBar from './components/SearchBar/SearchBar';
 import fetchData from './js/fetchData';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { PropagateLoader } from 'react-spinners';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
-import ImageModal from 'react-modal';
-import ModalContent from './components/ModalContent/ModalContent';
+import ImageModal from './components/ImageModal/ImageModal';
+import ReactModal from 'react-modal';
 
 function App() {
   const [images, setImages] = useState([]);
@@ -58,8 +58,8 @@ function App() {
   }
 
   function handleBigger(id) {
-    setIsOpen(true);
     setCurrentImg(() => images.find(item => item.id === id));
+    setIsOpen(true);
   }
 
   useEffect(() => {
@@ -68,7 +68,7 @@ function App() {
     }
   }, [isOpen]);
 
-  ImageModal.setAppElement('#root');
+  ReactModal.setAppElement('#root');
 
   return (
     <div className="wrapper">
@@ -80,21 +80,20 @@ function App() {
       {isLoading && <PropagateLoader color="#fcba03" />}
       {isError && <ErrorMessage />}
       {images.length !== 0 && <LoadMoreBtn handleClick={handleClick} />}
-      <ImageModal
+
+      <ReactModal
         isOpen={isOpen}
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
-        onRequestClose={() => {
-          setIsOpen(false);
-        }}
+        onRequestClose={() => setIsOpen(false)}
         style={{
           overlay: {
             backgroundColor: 'rgba(12, 12, 12, 0.8)',
           },
         }}
       >
-        <ModalContent content={currentImg} />
-      </ImageModal>
+        <ImageModal currentImg={currentImg} isOpen={isOpen} />
+      </ReactModal>
     </div>
   );
 }
